@@ -1,0 +1,558 @@
+---
+title: "Rogue River Steelhead Migration Timing Diversity Analysis"
+output:
+  html_document:
+    code_folding: hide
+    df_print: paged
+    toc: yes
+    toc_collapsed: no
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r, message=FALSE, warning=FALSE}
+require(plotly)
+require(hierfstat)
+require(adegenet)
+require(PopGenReport)
+require(pheatmap)
+require(tidyverse)
+#require(DiagrammeR)
+require(poppr)
+require(genepop)
+#require(graph4lg)
+require(knitr)
+require(pegas)
+require(cowplot)
+require(magrittr)
+require(kableExtra)
+```
+
+
+
+# Readme
+
+This is an rstudio project. If you'd like to pre-rendered figures, read a summary of analysis and view code, please open the html file in a browser. 
+
+
+To conduct the analyses on your computer, edit or run code: clone this repository into a directory on you r local machine and open the .Rproj file in Rstudio. All data and analyses are available in the github repository at https://github.com/david-dayan/half_pounder_2023 and archived at zenodo __UPDATE THIS__ https://zenodo.org/badge/latestdoi/302479383
+
+
+# Rationale 
+
+Steelhead on the Rogue River demonstrate tremendous life-history diversity. Freshwater entry timing spans most months of the year and include a "late-summer" or "fall" run in addition winter and early-summer runs.
+
+Also, some steelhead on the Rogue express a "half-pounder" life-history. Half-pounders exhibit a "false-spawning run" (although some precocious males may spawn) as juveniles during the summer months, then return to sea to continue the marine growth phase. There is great interest in half-pounders from a management perspective, because (i) half pounder abundance should integrate juvenile freshwater and early ocean conditions for steelhead regardless of whether they express the half pounder phenotype (ii) half pounder abundance is predictive of steelhead abundance in historical dam passage counts, and (iii) half-pounders are a unique fishery of great cultural and economic value. However, the relative proportion of winter vs early summer vs late-summer run life histories expressed by half pounders later in life is unknown. Furthermore there is limited genetic information about the three adult runs of steelhead on the Rogue, so improving our understanding of the relationships between these runs is key to our research objectives regarding half-pounders.
+
+This study attempts to use information from a GTseq marker panel to examine genetic structure within and among migratory groups of Rogue River steelhead. We also attempt to classify half-pounders and late-summer run adults into run-timing groups on the basis of run-timing associated genetic markers.
+
+# Data Summary
+
+## Samples
+
+__Half Pounders__  
+Samples were collected during ODFW’s Lower Rogue Seining Project in 2018 and 2019. The Lower Rogue Seining Project estimates escapement for Coho salmon, late-summer run _O. mykiss_, half-pounder _O. mykiss_ and fall Chinook salmon by beach seining near Huntley Park at approximate river mile 8, three times weekly from July through October. Half-pounder _O. mykiss_ were identified as individuals with fork length 250 - 410mm and sampled in batches of up to 50 fish each day for 11 days from September 7th to October 1st 2018 totaling 384 individuals and 18 days from August 14th to September 25th 2019 totaling 331 individuals. Caudal fin clips were taken for DNA extraction, and placed in daily batch vials containing 95% ethanol. Note that due to batch collection of fin clips, that these numbers are inflated (some individuals have multiple tissue samples - identified later and filtered) 
+
+All half-pounders are non-marked and assumed to be natural origin fish.
+
+Also ~5% of samples represented twice in GTseq library as QAQC samples
+
+__Adults__  
+For brevity and easy code comprehension, throughout the notebook early-summer run steelhead are referred to as summer run and late-summer run steelhead are referred to as fall run or late-summer. Fall is revised to late-summer and summer to early-summer for publication figures and tables to reflect terminology used by managers.
+
+We sampled, 50 winter and 45 early-run summer run fish. Adult summer steelhead were sampled at the Cole River Hatchery sorting pond on 6/26/2019 and (b) adult winter steelhead were sampled at Cole Rivers Hatchery (Rogue River) and the Applegate River from adult brood stock for 2019. 166 late-summer run fish (fall run) were sampled at the Huntley Park seine on the lower Rogue in 2019 and an additional 119 late-summer fish were collected at Huntley in 2020. Note that the fall run sample likely includes a broad range of freshwater entry timing, and incorporates individuals that may later migrate throughout the basin, whereas the winter and summer samples are a single sample in time and space and likely do not represent the full spatial or temporal migratory diversity of steelhead belonging to these runs.
+
+All but 4 early-summer run adults are marked and assumed to hatchery origin fish. The final filtered dataset contained 1 natural origin and 41 hatchery origin fish. Winter run fish include NOR and HOR fish. After filtering the final dataset contains 18 HOR and 22 NOR fish. Early summer run fish are all unmarked and assumed NOR. All late-summer fish were unmarked and assumed NOR.
+
+__Sample Size Summary__   
+Sample size per group after genotype quality filtering are below. 
+
+```{r Import Data}
+load("./genotype_data_2021/genind_2.0.R")
+load("./genotype_data_2021/genotypes_2.2.R")
+genos_2.3 <- genos_2.2
+genind_2.1 <- genind_2.0
+genos_2.3 <- ungroup(genos_2.3)
+kable(genos_2.3 %>%
+  group_by(run, year) %>%
+  tally(), caption = "Sample Sizes by Group and Year")
+
+```
+
+## Genotype Data
+
+Information about sequencing data, genotype calling and filtering is available in the relevant R notebook (2021_genotyping_notebook.Rmd) in this repository. In this notebook we begin from the genotype quality filtered dataset. We then create two datasets:  
+
+__Neutral, LD-thinned dataset__: 
+
+After genotype quality filtering, retain only markers that are putatively neutral (i.e. remove any "adaptive" marker that is included in the panel because it is candidate from environmental associatiion analysis or genome-wide association analysis for ecologically relevant trait, we'll also exlude the sex marker and species id markers at this point), then LD thin.  
+
+n_markers = 233  
+
+__Migration Timing Associated Markers__:  
+
+After genotype quality filtering, retain only markers that are associated with adult migration timing.  
+
+n_markers = 12
+
+# Data Prep
+
+Here we import and finalize our datasets
+
+```{r, eval = FALSE}
+#save a file with this info
+progeny <- readxl::read_xlsx("metadata/2019_summer/Omy Rogue2019 steelhead datasheets.xlsx", sheet = 4) 
+progeny <- progeny %>%
+  select(SFGL_ID, Origin)
+select(genos_2.3, Sample, run, year, Date) %>%
+  left_join(progeny, by = c("Sample" = "SFGL_ID")) %>%
+  mutate(Origin = replace(Origin, Origin == "AD", "HOR")) %>%
+  mutate(Origin = replace(Origin, Origin == "1", "NOR")) %>%
+  replace_na(list(Origin = "NOR")) %>%
+  write_tsv("supplemental_files_for_ms/sample_metadata_2021.txt")#convert AD (HOR) and 1 (NOR)
+
+
+
+```
+
+### Neutral, LD-thinned dataset
+
+__Neutral__
+First let's get just the neutral markers.
+
+The table below demonstrates the marker names, annotations, and mapped positions to the GCA_002163495.1 rainbow trout genome for the genotype quality filtered dataset.
+
+```{r marker info, message = FALSE, warning=FALSE}
+# import marker info, we'll also use this object to summarise and filter our panel later
+marker_mapping <- readxl::read_xlsx("./metadata/final_mapping_results.xlsx", sheet = 1)
+
+marker_summary <- marker_mapping %>%
+  mutate(marker = str_replace(marker, "Omy(\\d+)", "Chr\\1")) %>% # convert names to match
+  filter(marker %in% colnames(genos_2.3)) %>% # exclude filtered loci
+  mutate(neutral = if_else(str_detect(`Presumed Type`, 'neutral|Neutral'), "neutral", "adaptive")) %>%
+  mutate(run_timing = if_else(str_detect(`Presumed Type`, 'run|Run'), "run_timing", "non-run_timing")) %>%
+  dplyr::select(marker, chr, start, 'Presumed Type', neutral, run_timing, Source)
+
+DT::datatable(marker_summary, options = list(pageLength=10))
+
+```
+
+Now let's get just the neutral markers.
+
+```{r}
+neutral_markers <- marker_summary %>%
+  filter(neutral == "neutral") %>%
+  mutate(marker = str_replace(marker, "\\.", "_")) %>%# extra name change step (adegenet converts . to _)
+  pull(marker)
+
+genind_neutral <- genind_2.1[loc = neutral_markers]
+```
+
+Of the 350 markers that passed genotype quality filtering, there were 237 neutral markers.
+
+__LD Thin__
+Let's LD-thin the dataset. 
+
+We don't want to make any strong assumptions about population substructure before LD filtering, so let's split into our four sample groups and calculate LD for each. Then we'll look at the distribution of LD across groups to make sure there are no group specific patterns, then combine the data and choose an appropriate cutoff for filtering. This way we won't mistake population structure for LD. 
+
+```{r LD-Thin Dataset, cache=TRUE, message=FALSE, warning=FALSE}
+# first lets calculate LD (dartR has a great (fast) r2 calculator that works right on genind files, so let's use this)
+n.pop <- seppop(genind_neutral)
+
+#fall
+ldreport_fall <- dartR::gl.report.ld(dartR::gi2gl(n.pop$fall, verbose = 0), name = NULL, save = FALSE, nchunks = 2, ncores = 3, chunkname = NULL, verbose = 0)
+
+#half
+ldreport_half <- dartR::gl.report.ld(dartR::gi2gl(n.pop$halfpounder, verbose = 0), name = NULL, save = FALSE, nchunks = 2, ncores = 3, chunkname = NULL, verbose = 0)
+
+#half
+ldreport_summer <- dartR::gl.report.ld(dartR::gi2gl(n.pop$Summer, verbose = 0), name = NULL, save = FALSE, nchunks = 2, ncores = 3, chunkname = NULL, verbose = 0)
+
+#winter
+ldreport_winter <- dartR::gl.report.ld(dartR::gi2gl(n.pop$Winter, verbose = 0), name = NULL, save = FALSE, nchunks = 2, ncores = 3, chunkname = NULL, verbose = 0)
+
+```
+
+```{r, warning = FALSE}
+# now let's combine these LD reports into a single dataframe 
+ld_report <- bind_rows(ldreport_fall, ldreport_half, ldreport_summer, ldreport_winter, .id = "pop")
+
+# we have pretty decent mapping information for our markers, let's only look at physical LD (exclude comparisons across chromosomes or contigs)
+
+# ld report calls markers by order (not name) so let's get names together in order from the genind object first
+marker_summary_2 <- data.frame(marker = names(genind_neutral$loc.n.all))
+
+marker_summary_2 %<>%
+  left_join(select(mutate(marker_summary, marker = str_replace(marker, "\\.", "_")), marker, chr, start) ) %>%
+  rowid_to_column(var = "rowid")
+
+# get marker info on the ld report
+ld_report %<>%
+  mutate(pop = case_when(pop == "1" ~ "fall",
+                         pop == "2" ~ "half",
+                         pop == "3" ~ "summer",
+                         pop == "4" ~ "winter")) %>%
+  left_join(marker_summary_2, by = c("loc1" = "rowid")) %>% 
+  rename(marker_1 = marker, chr_1 = chr, start1 = start) %>% 
+  left_join(marker_summary_2, by = c("loc2" = "rowid")) %>% 
+  rename(marker_2 = marker, chr_2 = chr, start2 = start) 
+  
+# ignore LD across chromosomes
+ld_report %<>%
+  filter(chr_1 == chr_2)
+```
+
+Okay let's look at LD across groups. The expectation here is that LD should be more extensive in the winter and summer groups than the fall and halfpounder because the latter two were collected low in the river and contain more spatial and temporal structure. 
+```{r, message=FALSE, warning=FALSE}
+ggplot(ld_report)+geom_density(aes(R2, color = pop, fill = pop), alpha = 0.5)+scale_color_viridis_d()+theme_classic()+scale_fill_viridis_d()
+
+ggplot(ld_report)+geom_density(aes(R2, color = pop, fill = pop), alpha = 0.5)+scale_color_viridis_d()+theme_classic()+scale_fill_viridis_d()+xlim(0, 0.25)
+
+#ld_report_wide <- ld_report %>%
+#  pivot_wider(names_from = pop, values_from = R2)
+#ggplot(ld_report)+geom_density(aes(R2, color = pop, fill = pop), alpha = 0.5)+scale_color_viridis_d()+theme_classic()+scale_fill_viridis_d()+xlim(0, 0.25)
+#ld_report %<>%
+ # mutate(dist = abs(as.numeric(start1) - as.numeric(start2)))
+
+#let's plot ld decay
+# if we want to get serious here we should go back and use the hill and weir formula to fit the decay, but we can just use loess smoothing for a quick look given that it's not critical to our analysis. 
+
+#ggplot(filter(ld_report, dist < 250000))+geom_point(aes(dist, R2, color = pop), alpha = 0.5)+geom_smooth(aes(dist, R2, color = pop))+scale_color_viridis_d()+theme_classic()
+```
+
+```{r, eval = FALSE}
+# How many of these LD outliers are shared? 
+ld_report %>%
+  filter(R2>0.025) %>%
+  group_by(loc1, loc2) %>%
+  tally() %>%
+  filter(n > 3)
+```
+
+Sure enough. LD is more extensive in winter and summer, but it's not too different between groups background LD is around 0.025 in all groups, and there are a handful of marker pairs that are consistently in LD in all groups. Let's combine the dataset and apply a universal threshold. 
+
+```{r, message = FALSE, warning=FALSE}
+ldreport <- dartR::gl.report.ld(dartR::gi2gl(genind_neutral, verbose = 0), name = NULL, save = FALSE, nchunks = 2, ncores = 3, chunkname = NULL, verbose = 0)
+ggplot(ld_report)+geom_density(aes(R2))+theme_classic()
+```
+
+We'll prune (keep one) the dataset of any locus-pairs with r2 > 0.2.
+```{r LD-Thin 2}
+genind_neutral <- genind_neutral[loc=-unique(ldreport[ldreport$R2>0.2,]$loc2)]
+```
+
+Let's also get the dataframe version of the dataset as an object in the environment.
+```{r, cache = TRUE}
+neutral_markers_ldfiltered <- names(genind_neutral$loc.n.all)
+genos_2.3 %<>%
+  rename_all(funs(str_replace_all(., '\\.', '_'))) %>%
+  select(Sample:IFI, Date, run, year, OmyY1_2SEXY, all_of(neutral_markers_ldfiltered))
+```
+
+## Migration Timing Dataset
+
+There are 12 migration timing associated markers in the genotype quality filtered dataset. Let's get them.
+
+```{r}
+migration_timing_markers <- marker_summary %>%
+  filter(run_timing == "run_timing") %>%
+  pull(marker)
+
+genos_run <- genos_2.2 %>%
+  select(Sample:IFI, Date, run, year, OmyY1_2SEXY, all_of(migration_timing_markers))
+
+genind_run <- genind_2.1[loc = migration_timing_markers]
+```
+
+```{r}
+#great now let's clean up the environment
+rm(n.pop, ld_report, ldreport_fall, ldreport_half, ldreport_summer, ldreport_winter, marker_summary_2)
+```
+
+# Diversity Metrics
+
+Here we calculate both per-marker and per-run diversity metrics (Ho He HWE Fis and Fst)
+
+## Heterozygosity
+
+### Heterogyzity metrics
+
+__Neutral Markers__
+```{r He, message=FALSE, warning=FALSE}
+# first Ho and He
+n.pop <- seppop(genind_neutral)
+
+hobs <- lapply(n.pop, function(x) (summary(x)$Hobs))
+hobs <- as.data.frame(t(do.call(rbind, hobs)))
+hobs <- hobs %>%
+  rownames_to_column(var="marker")
+hobs <- hobs %>%
+  pivot_longer(-marker, names_to = "run", values_to = "Ho")
+#ggplot(hobs)+geom_boxplot(aes(x=pop, y=hobs))+theme_classic()+xlab("Run Timing")+ylab("Observed Heterozygosity")
+
+hexp <- lapply(n.pop, function(x) (summary(x)$Hexp))
+hexp <- as.data.frame(t(do.call(rbind, hexp)))
+hexp <- hexp %>%
+  rownames_to_column(var="marker") %>%
+  pivot_longer(-marker, names_to = "run", values_to = "He")
+
+marker_divs <- hexp %>%
+  left_join(hobs)
+
+
+
+# lets convert to longer format
+marker_divs <-  marker_divs %>%
+   pivot_longer(c("Ho", "He"), names_to = "obs_exp", values_to ="H")
+
+
+# lets throw up some nice plots here for all markers
+ggplot(data=marker_divs)+geom_boxplot(aes(x=run, y=H, fill = obs_exp))+scale_fill_viridis_d()+theme_classic()
+
+
+#ggplot(data=marker_divs[marker_divs$run_timing_marker=="run",])+geom_boxplot(aes(x=run, y=H, fill = obs_exp))+scale_fill_viridis_d()+theme_classic()+ggtitle("run-timing markers")
+
+#publication plot fig. 1
+#ggplot(data=drop_na(marker_divs[marker_divs$run_timing_marker=="run",]))+geom_boxplot(aes(x=run, y=H, fill = obs_exp), alpha = 0.8)+scale_fill_viridis_d(labels = c(expression(H[E]), expression(H[O])), name = " ")+theme_classic()+xlab("")+scale_x_discrete(labels = c("Late-Summer", "Half-Pounder", "Early-Summer", "Winter"))+theme(axis.text.x = element_text(size = 10, angle = 90))
+
+# publication plot suppl fig. 1
+# a <- ggplot(data=drop_na(marker_divs[marker_divs$neutral=="neutral",]))+geom_boxplot(aes(x=run, y=H, fill = obs_exp), alpha = 0.8)+scale_fill_viridis_d(labels = c(expression(H[E]), expression(H[O])), name = " ")+theme_classic()+xlab("")+scale_x_discrete(labels = c("Late-Summer", "Half-Pounder", "Early-Summer", "Winter"))+theme(legend.position = "none")+theme(axis.text.x = element_text(size = 10, angle = 90))
+# 
+# b <- ggplot(data=drop_na(marker_divs[marker_divs$neutral=="adaptive",]))+geom_boxplot(aes(x=run, y=H, fill = obs_exp), alpha = 0.8)+scale_fill_viridis_d(labels = c(expression(H[E]), expression(H[O])), name = " ")+theme_classic()+xlab("")+scale_x_discrete(labels = c("Late-Summer", "Half-Pounder", "Early-Summer", "Winter"))+ylim(0,0.68)+theme(axis.text.x = element_text(size = 10, angle = 90))
+# 
+# plot_grid(a,b, rel_widths = c(0.83,1), labels = c("(a)", "(b)"))
+
+#supplemental table
+kable(marker_divs %>%
+  group_by(run, obs_exp) %>%
+  summarise(mean = mean(H)), caption = "Mean observed and expected heterozygosity at nuetral markers")
+
+
+
+```
+
+Are there significant departures from HWE at the loci level?
+
+```{r, cache=TRUE,warning=FALSE, message=FALSE}
+# here we use the hw.test function from pegas (exact test based on Monte Carlo permutations of alleles, 1000 permutations)
+HWE.test <- lapply(n.pop, function(x) hw.test(x, B=1000))
+
+```
+
+```{r , warning=FALSE, message=FALSE}
+# here we take the list of dataframes of p-values and combine into a single dataframe
+hwe <- reduce(HWE.test, cbind)
+hwe <- hwe[,c(4,8,12,16)]
+colnames(hwe) <- c("fall", "halfpounder", "summer", "winter")
+hwe <- as.data.frame(hwe)
+
+# next we correct for multiple comparisons
+p.adj <- as.data.frame(apply(hwe, MARGIN = 2, function(x) p.adjust(x, "fdr")))
+hwe_exceed <- p.adj %>% rownames_to_column(var="marker") %>%
+  pivot_longer(-marker, names_to = "run", values_to = "fdr") %>%
+  filter(fdr < 0.05)
+
+hwe_exceed <- hwe_exceed %>%
+  left_join(pivot_wider(marker_divs, names_from = obs_exp, values_from = H)) %>%  
+  mutate(direction = if_else(He > Ho, "excess_homo", "excess_hetero")) %>%
+  filter(direction == "excess_homo")
+
+a <- hwe_exceed%>%
+  group_by(run) %>%
+  tally()
+
+kable(a, caption = "Number of neutramarkers significantly out of HWE")
+
+```
+
+
+Yes, 7 in fall and 18 in halfpounderstable outside of HWE (fdr < 0.05) per "population." Note that the value above may differ from the publication numbers because this notebook rendering was not the one used for final results (e.g. other runs of the monte-carlo simulations may produce slightly different results).
+
+__Migration Timing__  
+What about migration timing markers? 
+```{r He, message=FALSE, warning=FALSE}
+# first Ho and He
+n.pop_run <- seppop(genind_run)
+
+hobs <- lapply(n.pop_run, function(x) (summary(x)$Hobs))
+hobs <- as.data.frame(t(do.call(rbind, hobs)))
+hobs <- hobs %>%
+  rownames_to_column(var="marker")
+hobs <- hobs %>%
+  pivot_longer(-marker, names_to = "run", values_to = "Ho")
+#ggplot(hobs)+geom_boxplot(aes(x=pop, y=hobs))+theme_classic()+xlab("Run Timing")+ylab("Observed Heterozygosity")
+
+hexp <- lapply(n.pop_run, function(x) (summary(x)$Hexp))
+hexp <- as.data.frame(t(do.call(rbind, hexp)))
+hexp <- hexp %>%
+  rownames_to_column(var="marker") %>%
+  pivot_longer(-marker, names_to = "run", values_to = "He")
+
+marker_divs <- hexp %>%
+  left_join(hobs)
+
+
+
+# lets convert to longer format
+marker_divs <-  marker_divs %>%
+   pivot_longer(c("Ho", "He"), names_to = "obs_exp", values_to ="H")
+
+
+# lets throw up some nice plots here for run markers
+ggplot(data=marker_divs)+geom_boxplot(aes(x=run, y=H, fill = obs_exp))+scale_fill_viridis_d()+theme_classic()
+
+
+#ggplot(data=marker_divs[marker_divs$run_timing_marker=="run",])+geom_boxplot(aes(x=run, y=H, fill = obs_exp))+scale_fill_viridis_d()+theme_classic()+ggtitle("run-timing markers")
+
+#publication plot fig. 1
+#ggplot(data=drop_na(marker_divs[marker_divs$run_timing_marker=="run",]))+geom_boxplot(aes(x=run, y=H, fill = obs_exp), alpha = 0.8)+scale_fill_viridis_d(labels = c(expression(H[E]), expression(H[O])), name = " ")+theme_classic()+xlab("")+scale_x_discrete(labels = c("Late-Summer", "Half-Pounder", "Early-Summer", "Winter"))+theme(axis.text.x = element_text(size = 10, angle = 90))
+
+# publication plot suppl fig. 1
+# a <- ggplot(data=drop_na(marker_divs[marker_divs$neutral=="neutral",]))+geom_boxplot(aes(x=run, y=H, fill = obs_exp), alpha = 0.8)+scale_fill_viridis_d(labels = c(expression(H[E]), expression(H[O])), name = " ")+theme_classic()+xlab("")+scale_x_discrete(labels = c("Late-Summer", "Half-Pounder", "Early-Summer", "Winter"))+theme(legend.position = "none")+theme(axis.text.x = element_text(size = 10, angle = 90))
+# 
+# b <- ggplot(data=drop_na(marker_divs[marker_divs$neutral=="adaptive",]))+geom_boxplot(aes(x=run, y=H, fill = obs_exp), alpha = 0.8)+scale_fill_viridis_d(labels = c(expression(H[E]), expression(H[O])), name = " ")+theme_classic()+xlab("")+scale_x_discrete(labels = c("Late-Summer", "Half-Pounder", "Early-Summer", "Winter"))+ylim(0,0.68)+theme(axis.text.x = element_text(size = 10, angle = 90))
+# 
+# plot_grid(a,b, rel_widths = c(0.83,1), labels = c("(a)", "(b)"))
+
+#supplemental table
+kable(marker_divs %>%
+  group_by(run, obs_exp) %>%
+  summarise(mean = mean(H)), caption = "Mean observed and expected heterozygosity at migration timing markers")
+
+
+
+```
+
+Very little diversity at migration timing markers in summer and winter, but high diversity in halfpounders and fall. Importantly, the fall migration timing markers are in HWE, but the halfpounders are not! 
+
+Is this significant? Let's do some locus level testing.
+
+```{r, cache=TRUE,warning=FALSE, message=FALSE}
+# here we use the hw.test function from pegas (exact test based on Monte Carlo permutations of alleles, 1000 permutations)
+HWE.test <- lapply(n.pop_run, function(x) hw.test(x, B=1000))
+
+```
+
+```{r , warning=FALSE, message=FALSE}
+# here we take the list of dataframes of p-values and combine into a single dataframe
+hwe <- reduce(HWE.test, cbind)
+hwe <- hwe[,c(4,8,12,16)]
+colnames(hwe) <- c("fall", "halfpounder", "summer", "winter")
+hwe <- as.data.frame(hwe)
+
+# next we correct for multiple comparisons
+p.adj <- as.data.frame(apply(hwe, MARGIN = 2, function(x) p.adjust(x, "fdr")))
+hwe_exceed <- p.adj %>% rownames_to_column(var="marker") %>%
+  pivot_longer(-marker, names_to = "run", values_to = "fdr") %>%
+  filter(fdr < 0.05)
+
+hwe_exceed <- hwe_exceed %>%
+  left_join(pivot_wider(marker_divs, names_from = obs_exp, values_from = H)) %>%  
+  mutate(direction = if_else(He > Ho, "excess_homo", "excess_hetero")) %>%
+  filter(direction == "excess_homo")
+
+a <- hwe_exceed%>%
+  group_by(run) %>%
+  tally()
+
+kable(a, caption = "Number of migration timing markers significantly out of HWE")
+
+```
+
+Yes, no migration timing markers are out of HWE in the adult groups, but 9 of 12 are out of HWE in the halfpounders. This already suggests that Wahlund effects for the halfpounders, but not the fall with respect to migration timing. Or put another way, halfpounders come from parents that include both early- and late- migration timing, but fall run adults are produced by ongoing gene flow between early and late migrators.
+
+## Fst
+
+Let's move on to f-statistics. We'll use hierfstats for most of this work, so the first step is to convert to a hierfstat format. Then we'll calculate some basic statists and Fst (Nei).
+
+```{r, warning=FALSE, message=FALSE}
+fstat <- genind2hierfstat(genind_neutral)
+colnames(fstat) <- c(pop, names(genind_neutral$loc.n.all))
+# and also lets make datasets at different sets of loci, because hierfstat doesn't easily retain loci names for later use
+
+fstat_run_timing <- genind2hierfstat(genind_run)
+colnames(fstat_run_timing) <- c(pop, names(genind_run$loc.n.all))
+
+#calculate datset wide basic stats
+basicstats <- basic.stats(fstat)
+basicstats_run_timing <- basic.stats(fstat_run_timing)
+
+kable(basicstats$overall, caption = "Neutral Dataset Fstats")
+kable(basicstats_run_timing$overall, caption = "Run Timing Marker Fstats")
+
+
+
+
+```
+
+### Pairwise Population Fst
+
+Let's collect genetic distance info on pairs of pops as well (Weir and Cochran 1984). 
+
+First, the neutral dataset:
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
+genet.dist(fstat, method="WC84")
+```
+
+Then run timing dataset:
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
+genet.dist(fstat_run_timing, method="WC84")
+```
+
+Same pattern at neutral and run timing markers, although at differentiation is obviously at a very different scale. Let's take a look at the more closely. 
+
+```{r}
+rt_fst <- genet.dist(fstat_run_timing, method="WC84")
+rt_fst <- as.matrix(rt_fst)
+
+fsts_rt <- t(combn(colnames(rt_fst ), 2))
+a <- data.frame(fsts_rt, dist=rt_fst[fsts_rt])
+a %<>%
+  rename(fst_runtiming = dist)
+
+n_fst <- genet.dist(fstat, method="WC84")
+n_fst <- as.matrix(n_fst)
+
+fsts_n <- t(combn(colnames(n_fst ), 2))
+b <- data.frame(fsts_n, dist=n_fst[fsts_n])
+b %<>%
+  rename(fst_neutral = dist)
+
+a %<>%
+  left_join(b)
+
+ggplot(a)+geom_point(aes(fst_runtiming,fst_neutral))+geom_smooth(aes(fst_runtiming,fst_neutral), method = "lm")+theme_bw()
+
+cor(a$fst_runtiming,a$fst_neutral)
+```
+
+
+We should also investigate if it is justified to group samples drawn from different years together like we have been doing. Let's split the year classes and run again
+
+First for full dataset:  
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
+genind_year <- genind_neutral
+
+genind_year@pop <- as.factor(paste(genos_2.3$run, genos_2.3$year, sep = "_"))
+
+fstat_year <- genind2hierfstat(genind_year)
+colnames(fstat_year) <- c(pop, names(genind_year$loc.n.all))
+
+genet.dist(fstat_year, method="WC84")
+
+```
+
+Fst within runs across years is vanishingly small, let's continue to group them together for clarity.
+
+### Fst Results Summary
+
+
+Note that there are a couple assumptions/issues with this analysis and we would benefit from remembering these when considering the results summary below:  
+
+(1) Limited sampling within summer and winter runs means we are undersampling diversity WITHIN these runs, and as a consequence potentially overstating the extent of differentiation BETWEEN runs.  
+(2) While it is not our intention, estimating Fst among phenotypic groups implies they distinct genetic lineages. Instead, these Fst estimates represent the degree of genetic differentiation between phenotypic groups. This is discussed at greater length in the _de novo_ v _a priori_ discussion in the [Population Structure] section.
+
+Very low differentiation overall (datasetwide FST = 0.0047). However there were some patterns. First there is essentially zero differentiation between halfpounders and fall at both neutral and run timing markers. Second, pairwise FST at neutral and run timing markers is strongly correlated  (Pearson correlation = 0.85) suggesting that run timing is responsible for the neutral differentiation that we see between runs. Third, the greatest differentiation is between summer and winter. Fourth fall/halfpounders are more similar to winter than summer (differentiation between halfpounder/fall vs summer about 2fold greater than halfpounder/fall vs winter), but there is still some differentiation keeping them apart from either group.
+
+

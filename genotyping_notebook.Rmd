@@ -1,0 +1,1035 @@
+---
+title: "2021 Half Pounder Genotyping Notebook"
+output:
+  html_document:
+    df_print: paged
+    code_folding: hide
+    toc: true
+    toc_float: true
+    toc_collapsed: false
+---
+
+
+# Readme
+
+This is an rstudio project. If you'd like to pre-rendered figures, read a summary of analysis and view code, please open the relevant html file in a browser. 
+
+
+To conduct the analyses on your computer, edit or run code: clone this repository into a directory on you r local machine and open the .Rproj file in Rstudio. All data (except raw sequencing data) and analyses are available in the github repository at https://github.com/david-dayan/rogue_half_pounder.git 
+
+
+# Rationale
+
+After drafting the half-pounder manuscript additional samples from the Rogue River were sequenced. In this notebook we include this new data and then regenotype all samples. The other change is using the new GTseq genotyping SOP which has improved filtering. Note that some steps that do not need to be repeated (demultiplexing sequence reads), are included in the log here but run previously.
+
+
+```{r, message=FALSE, warning=FALSE}
+require(tidyverse)
+require(magrittr)
+require(DiagrammeR)
+require(poppr)
+require(genepop)
+require(graph4lg)
+require(related)
+require(adegenet)
+require(knitr)
+```
+
+
+# GTseq outline
+
+```{r}
+grViz("digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab7 [label = '@@7']
+      tab8 [label = '@@8']
+      # edge definitions with the node IDs
+      tab1 -> tab2 [label = 'GTseq_BarcodeSplit']
+      tab2 -> tab3 [label = 'GTseq_Genotyper']
+      tab3 -> tab4 [label = 'GTseq_genocompile']
+      tab4 -> tab5 [label = 'filtering']
+      tab4 -> tab6 [label = 'GTseq_summaryfigs']
+      tab3 -> tab7 [label = 'GTseq_genocompilecounts']
+      tab7 -> tab5 
+      tab1 -> tab8 [label = 'GTseq_seqtest']
+      tab7 -> tab4 [label = 'GTseq_Omysex']
+      tab6 -> tab5
+      }
+      [1]: 'Raw Reads'
+      [2]: 'Demultiplezed fastqs'
+      [3]: 'Individual genotypes'
+      [4]: 'raw GTseq dataset'
+      [5]: 'final filtered dataset'
+      [6]: 'summary figures'
+      [7]: 'read counts'
+      [8]: 'marker info'
+      
+      ")
+
+```
+
+# Summary
+
+The raw dataset had high read quality (average quality > 37). After demultiplexing, 441 million reads remained. The first round of quality filtering removed eight individuals with greater than 30% missingness and three sites with > 50% missingness. The second round removed 42 individuals with greater than 30% missingness, 14 sites with greater than 20% missingness and a single individual with IFI greater than 2.5. We removed 10 sites with skewed allele correction values or potential reads from a paralogous sequence, 14 monomorphic sites, one redundant site, one site with strong differences in missingness among populations and 39 duplicated half-pounders. After filtering and quality control, our final dataset consisted of 1000 samples genotyped at 350 markers (Table 2, Supplemental File GTseq_panel.xlsx). Median read depth per sample per locus in the final dataset was 191, and the mean was 328 ± 428 (s.d.). All groups demonstrated a bias towards female sex genotypes (Table 2), but this bias was lowest among the half-pounders. The XX:XY ratio among half-pounders was 1.18, and The XX:XY ratio among all other groups was 1.55.
+
+# Data Summary
+
+## Samples
+
+__Half Pounders__  
+Samples were collected during ODFW’s Lower Rogue Seining Project in 2018 and 2019. The Lower Rogue Seining Project estimates escapement for Coho, late-run summer steelhead, half-pounder steelhead and fall chinook by beach seining near Huntley Park at approximate river mile 8, three times weekly from July through October. Half-pounder steelhead were identified as individuals with fork length 250 - 410mm and sampled in batches of up to 50 fish each day for 11 days from September 7th to October 1st 2018 totaling 384 individuals and 18 days from August 14th to September 25th 2019 totaling 331 individuals. Caudal fin clips were taken for DNA extraction, and placed in daily batch vials containing 95% ethanol. Note that due to batch collection of fin clips, that these numbers are inflated (some individuals have multiple tissue samples - identified later and filtered) 
+
+All half-pounders are non-marked and assumed to be natural origin fish.
+
+Also ~5% of samples represented twice in GTseq library as QAQC samples
+
+__Adults__  
+50 winter and 45 early run summer run fish.. Adult summer steelhead were sampled at the Cole River Hatchery sorting pond on 6/26/2019 and (b) adult winter steelhead were sampled at Cole Rivers Hatchery (Rogue River) and the Applegate River from adult brood stock for 2019. Finally 166 additional late-run summer fish (fall run) were sampled at the Huntley Park seine on the lower Rogue in 2019 and additional 119 late-summer fish were collected at Huntley in 2020.
+
+All but 4 early-summer run adults are marked and assumed to hatchery origin fish. The final filtered dataset contained 1 natural origin and 41 hatchery origin fish. Winter run fish include NOR and HOR fish. After filtering the final dataset contains 18 HOR and 22 NOR fish. Early summer run fish are all unmarked and assumed NOR. All late-summer fish were unmarked and assumed NOR.
+
+__Sample metadata__
+
+let's gather all the metadata into a single file:
+note that intake files disagrees with other sample sizes - likely because some samples came as batch jars of fin clips, and some fin clips were from the same individual and later filtered out
+```{r, message=FALSE, warning=FALSE}
+#intake files
+half_2018_intake <- readxl::read_xlsx("metadata/2018_halfpounder/OmyJC18ROGR_STHP Intake form Spread sheet.xlsx", sheet = 3)
+half_2019_intake <- readxl::read_xlsx("metadata/2019_halfpounder/STHP Intake form Spread sheet 2019.xlsx", sheet = 1)
+fall_intake <- readxl::read_xlsx("metadata/2019_fall/Rogue Adult Summer and Winter (06 11 20).xlsx", sheet = 1)
+summer_intake <- readxl::read_xlsx("metadata/2019_summer/Omy Rogue2019 steelhead datasheets.xlsx", sheet = 2)
+winter_intake <- readxl::read_xlsx("metadata/2019_winter/StW Scales for DNA (06 17 19).xlsx", sheet = 3)
+fall_2020_intake <- readxl::read_xlsx("metadata/2020_fall/Intake_0004_OmyAC20ROGR_ProgenyEntry.xlsx")
+
+#merge intakes
+# first clean them up a bit to make merging easier
+half_2018_intake <- half_2018_intake[,c(1,6)]
+colnames(half_2018_intake)[1] <- "ID"
+half_2018_intake$run <- "halfpounder"
+half_2018_intake$year <- "2018"
+colnames(half_2018_intake) <- c("ID", "Date", "run", "year")
+
+half_2019_intake <- half_2019_intake[,c(1,2)]
+half_2019_intake$run <- "halfpounder"
+half_2019_intake$year <- "2019"
+colnames(half_2019_intake) <- c("ID", "Date", "run", "year")
+
+summer_intake <- summer_intake[,c(2,3,6)]
+colnames(summer_intake) <- c("ID", "Date", "run")
+summer_intake$year <- "2019"
+
+winter_intake <- winter_intake[,c(2,3,7)]
+colnames(winter_intake) <- c("ID", "Date", "run")
+winter_intake$year <- "2019"
+
+fall_intake <- subset(fall_intake, Run == "Summer")
+fall_intake <- fall_intake[,c(1,3,6)]
+colnames(fall_intake) <- c("ID", "Date", "run")
+fall_intake$run <- "fall"
+fall_intake$year <- "2019"
+
+fall_2020_intake <- fall_2020_intake[,c(2,5,13)]
+colnames(fall_2020_intake) <- c("ID", "Date", "run")
+fall_2020_intake$run <- "fall"
+fall_2020_intake$year <- "2020"
+
+meta_data <- bind_rows(half_2018_intake, half_2019_intake, fall_intake, fall_2020_intake, winter_intake, summer_intake)
+
+meta_data %>%
+  group_by(run, year) %>%
+  tally()
+
+```
+
+## Sequencing Data
+
+Sequencing for this project is spread across three GTseq libraries.
+
+### Sequencing QC
+__second lane__  
+Clusters: 409,149,535  
+Yield (mbase): 61,782  
+% >Q30 bases: 87.13  
+Average Qual: 37.18  
+
+fastqc report available in working directory
+
+__first lane__  
+don't have this info
+
+__2020 lane__
+also don't have this summary info. University of Oregon sequencing.
+
+### data locations
+
+Sequencing data is from multiple sequencing runs and multiple technicians/bioinformaticians. Summer Winter and 2018 half-pounders were already demuxed, 2019 fall and 2019 halfpounder are demuxed in this notebook and 2020 fall samples came demuxed from U of O
+
+__Demultiplexed fastqs__  
+/nfs1/FW_HMSC/OMalley_Lab/bohns/GTseq/OmyRogue/sample_fastqs - 2018 halfpounders
+/nfs1/FW_HMSC/OMalley_Lab/bohns/GTseq/OmyRogue/baseline/sample_fastqs - 2019 winter and 2019 summer
+
+/dfs/FW_HMSC/Omalley_Lab/dayan/half_pounder/genotyping/demux - 2019 fall and 2019 halfpounder
+
+/dfs/Omalley_Lab/dayan/half_pounder/genotyping/illumina_run018_reads - 2020 fall reads
+
+
+__Lane 1__  
+potentially /dfs/Omalley_Lab/bohns/GTseq/RAW_READS/OmyROGR-KLAROtsROGR... but need to check this
+
+__Lane 2__  
+/dfs/FW_HMSC/Omalley_Lab/dayan/seqdata/OmyRogue2020/Undetermined_S0_L002_R1_001.fastq.gz
+GTseq runs on uncompressed files, uncompressed copy in same directory "lane2.fastq"
+
+# Demultiplex
+
+The first step is to demultiplex the raw sequencing file using the i5 and i7 indexes. We can actually skip this because the sequencing center already performed a demux (exact matching) for the second lane, and files are already demuxed for the first lane. Instead, we just copy the demuxed files and give them more reasonable name.  
+
+
+```{r, eval=FALSE}
+#generate barcode file for second lane samples
+# example: Sample,PlateID,i7_name,i7_sequence,i5_name,i5_sequence
+#          Sample123,P1234,i001,ACCGTA,25,CCCTAA
+#          Sample321,P1234,i001,ACCGTA,26,GGCACA
+
+#first lets get the index sequences 
+index2020 <- read_tsv("metadata/index_2020.txt")
+colnames(index2020) <- c("Sample","PlateID","i7_name","i7_sequence","i5_name","i5_sequence")
+write_csv(index2020, "./metadata/index_2020_lane.csv")
+```
+
+```{bash, eval=FALSE}
+#first move the demuxed files over
+cp /nfs2/hts/illumina/200723_J00107_0245_AHHLG2BBXY_1504/L23/*Omy* /dfs/FW_HMSC/Omalley_Lab/dayan/half_pounder/genotyping/demux
+
+cp /nfs2/hts/illumina/200723_J00107_0245_AHHLG2BBXY_1504/L23/*positive* /dfs/FW_HMSC/Omalley_Lab/dayan/half_pounder/genotyping/demux
+
+cp /nfs2/hts/illumina/200723_J00107_0245_AHHLG2BBXY_1504/L23/negative* /dfs/FW_HMSC/Omalley_Lab/dayan/half_pounder/genotyping/demux
+
+#next rename to something easier to work with
+for file in ./*
+do
+   mv "$file" "${file:20}"
+done
+
+
+for file in ./*fastq.genos
+do
+   mv "$file" "${file%..genos}".genos
+done
+```
+
+# Genotype
+
+__Main Genotyper__  
+Next we'll run the GTseq genotyper (v3.1) script on each fastq file to generate the individual genotypes (.genos) 
+
+The genotyper script requires unzipped fastq files for input. First code chunk below can decompress the input if your demultiplexed files are compressed
+
+```{bash, eval = FALSE}
+
+#!/bin/bash
+#$ -S /bin/bash
+#$ -t 1-194
+#$ -tc 20
+#$ -N decompress
+#$ -cwd
+#$ -o $JOB_NAME_$TASK_ID.out
+#$ -e $JOB_NAME_$TASK_ID.err
+
+FASTQS=(`ls *fastq.gz`)
+INFILE=${FASTQS[$SGE_TASK_ID -1]}
+
+gunzip -c $INFILE > ${INFILE%.gz}
+
+#save as script and submit this with qsub -q harold scriptname
+####################################
+```
+
+Already have the .genos files for the previously analyzed files, so only ran the genotyper script on the new fall 2020 samples. First created a new directory "genos_fall2020/", then moved the decompressed fastq here and ran the genotyper script below.
+
+```{bash, eval=FALSE}
+#!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-195
+
+#$ -tc 20
+
+#$ -N GTseq-genotyperv3
+
+#$ -cwd
+
+#$ -o $JOB_NAME_$TASK_ID.out
+
+#$ -e $JOB_NAME_$TASK_ID.err
+export PERL5LIB='/home/fw/dayand/perl5/lib/perl5/x86_64-linux-thread-multi/'
+
+FASTQS=(`ls /dfs/Omalley_Lab/dayan/half_pounder/genotyping/genos_fall2020/*fastq`)
+INFILE=${FASTQS[$SGE_TASK_ID -1]}
+OUTFILE=$(basename ${INFILE%.fastq}.genos)
+
+GTSEQ_GENO="/dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/GTseq_Genotyper_v3.1.pl
+"
+
+PROBE_SEQS="/dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/Omy_GTseq390_ProbeSeqs.csv"
+
+perl $GTSEQ_GENO $PROBE_SEQS $INFILE > $OUTFILE
+
+#save this code chunk as a file on the server and submit this with qsub -q harold scriptname from the directory you want the output .genos files
+```
+
+
+Now run the sex genotyper on these new samples
+```{bash, eval = FALSE}
+
+SGE_Batch -q otter -r omysex -c 'perl /dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/OmySEX_test_v3.pl'
+
+```
+
+
+Some of the .genos files in this directory were corrupted in the transfer to the dfs file system. We'll quickly re-genotype these files
+```{bash, eval = FALSE}
+mkdir corrupted
+cd corrupted
+mv /dfs/Omalley_Lab/dayan/half_pounder/genotyping/genos/PT25_A06_ROGR_OmyAC19APPR_0218* ./
+mv /dfs/Omalley_Lab/dayan/half_pounder/genotyping/genos/PT25_D04_ROGR_OmyAC19APPR_0114* ./
+mv /dfs/Omalley_Lab/dayan/half_pounder/genotyping/genos/PT25_A07_ROGR_OmyAC19CORH_0104* ./
+
+#run this script
+
+#!/bin/bash
+#$ -S /bin/bash
+
+#$ -t 1-3
+
+#$ -tc 3
+
+#$ -N GTseq-genotyperv3
+
+#$ -cwd
+
+#$ -o $JOB_NAME_$TASK_ID.out
+
+#$ -e $JOB_NAME_$TASK_ID.err
+export PERL5LIB='/home/fw/dayand/perl5/lib/perl5/x86_64-linux-thread-multi/'
+
+FASTQS=(`ls ./*fastq`)
+INFILE=${FASTQS[$SGE_TASK_ID -1]}
+OUTFILE=$(basename ${INFILE%.fastq}.genos)
+
+GTSEQ_GENO="/dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/GTseq_Genotyper_v3.1.pl
+"
+
+PROBE_SEQS="/dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/Omy_GTseq390_ProbeSeqs.csv"
+
+perl $GTSEQ_GENO $PROBE_SEQS $INFILE > $OUTFILE
+
+
+#then 
+SGE_Batch -q otter -r omysex -c 'perl /dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/OmySEX_test_v3.pl'
+
+#then move all this back to the genos directory
+
+mv *genos ../genos/
+mv *fastq ../genos/
+
+```
+
+
+
+Finally, we'll add the .genos files from the latest sequencing run to the previous .genos files in the "/genos" directory and run the compiler. Note that these compiled, raw genotypes are titled 'half_pounder_2021_GTs_0.1.csv' instead of "half_pounder_GTs_0.1.csv" which does not include the 2020 fall run samples. 
+
+```{bash, eval=FALSE}
+
+#this is run from within the .genos directory
+
+SGE_Batch -q otter -r compile -c 'perl /dfs/Omalley_Lab/dayan/software/GTseq-Pipeline/GTseq_GenoCompile_v3.pl > ../genotypes/half_pounder_2021_GTs_0.1.csv'
+
+```
+
+
+# QAQC
+
+Here we do some basic quality control. We check positive (known good DNA) and negative (known blank samples) controls, as well as control for known genotypes (i.e. known winter run, etc). After controls, we check for concordance among sample replicates to check that no wetlab errors occured that might have scrambled indexing/barcoding. 
+
+## Controls
+
+First let's check that the controls worked well. We will check that negative controls have much fewer reads than average (there may be some on-target reads from othr samples due to index sequence error)
+```{r, warning=FALSE, message=FALSE}
+# LOCAL R
+
+# first I cleaned up the sample names in the output compiled genotype file (.csv) with regex in a text editor - separated adapter info from sample name etc, you may not need to do this depending on who did your demultiplexing
+
+# then read this file in to R
+genos_0.1 <- read_csv("genotype_data_2021/half_pounder_2021_GTs_0.1.csv")
+
+# lets set a value to mark controls
+# here controls contained "positive," "negative" in their sample names so used simple pattern matching to create a new column
+
+genos_0.1 <- genos_0.1 %>%
+  mutate(control = ifelse(grepl("positive", Sample), "positive", ifelse(grepl("negative", Sample), "negative", "sample")))
+
+# great let's plot
+ggplot()+geom_histogram(data = genos_0.1, aes(x = `On-Target Reads`, fill= control)) + theme_classic()
+
+
+```
+
+Looks good. Negative controls have very few reads, positive are distributed, but lets just double check that there isn't a negative control  with a lot of reads hiding in there and indicating a plate flip:
+
+```{r, message=FALSE, warning=FALSE}
+ggplot()+geom_histogram(data = genos_0.1[genos_0.1$control=="negative",], aes(x = `On-Target Reads`)) + theme_classic()
+
+```
+
+Uh-oh, a negative control with ~6300 on target reads, but maybe there's just a lot of reads at this adapter/well, lets examine as a portion of total reads, and also the portion GT'd.
+
+```{r, warning=FALSE}
+ggplot()+geom_histogram(data = genos_0.1, aes(x = `%On-Target`, fill= control)) + theme_classic()
+```
+
+Okay, that looks a lot better. The negative control with a lot of reads only has very small amount on target, much lower than most samples and positive controls. This suggests it is unlikely to be due to a wetlab error like flipping a plate upside down. Positive and negative controls check out. Also of note here is that the positive controls are biased down with respect to on target proportion, suggesting these samples are getting old. 
+
+
+### Replicates
+
+Some samples were replicated, let's check for concordance in the genotypes, the pick the sample with better GT success and throw out the duplicate.
+
+```{r, cache=TRUE, warning=FALSE, message=FALSE}
+#LOCAL R
+
+# here we filter out our known controls and create our next dataset genos_0.11
+genos_0.11 <- genos_0.1 %>%
+  filter(control == "sample") %>%
+  filter(str_detect(Sample, "Winter") != TRUE) %>%
+  filter(str_detect(Sample, "Heterozygous" ) != TRUE) %>%
+  filter(str_detect(Sample, "Summer") != TRUE)
+
+#clean up sample names
+
+genos_0.11$filename <- genos_0.11$Sample
+genos_0.11$Sample <- str_extract(genos_0.11$Sample, "[:upper:][:lower:]{2}[AJCU][RC]\\d{2}\\w{4}_\\d{4}")
+
+#now let's get duplicated samples
+dups <- genos_0.11[genos_0.11$Sample %in% genos_0.11$Sample[duplicated(genos_0.11$Sample)],]
+dups <- dups[order(dups$Sample),]
+
+# next we'll calculate the percent concordance among replicates
+# woof I don't see a good way around using a nested for loop here, maybe fix this in the future
+
+dups_genos <- dups[,c(9:ncol(dups)-2)] #caution, possible hardcoding here, grab genotpyes and leave metadata out
+rep_info <- matrix(ncol=ncol(dups_genos), nrow=nrow(dups_genos)/2)
+colnames(rep_info) <- colnames(dups_genos)
+for (j in 1:(nrow(dups_genos)/2)) {
+for (i in 1:ncol(dups_genos)) {
+  rep_info[j,i] <- sum(dups_genos[(j*2)-1,i]==dups_genos[(j*2),i])
+}
+  }
+
+geno_concordance <- as.data.frame(as.matrix(rep_info)) %>%
+  rowMeans()
+
+rep_data <- as.data.frame(cbind(dups[c(1:length(geno_concordance))*2,1], geno_concordance))
+ggplot(data=rep_data)+geom_histogram(aes(x=geno_concordance))+theme_classic()
+
+```
+
+There are 116 replicated samples. Mean concordance of genotype across replicates is 87.3%. Next let's examine whats going on with the samples with very low concordance.
+
+```{r}
+#get the bad samples
+bad_reps <- genos_0.11[genos_0.11$Sample %in% rep_data[rep_data$geno_concordance<0.50,1],1:7]
+bad_reps[order(bad_reps$Sample),]
+```
+
+One of the duplicates just has extremely low %On-Target reads
+
+__Replication Summary__  
+Replicate samples look good, bad replicates (<50% concordance) seems to be due to one replicate of the pair having extremely low GT success. 
+
+Next let's make the 0.2 dataset (i.e. remove the replicates with lower GT success).
+```{r}
+
+# LOCAL R
+
+#this writes a new dataset (0.2) by choosing the samples within duplicates and keeping the one with the highest genotyping success
+genos_0.2 <- genos_0.11 %>%
+  group_by(Sample) %>%
+  filter(`On-Target Reads` == max(`On-Target Reads`))
+
+```
+
+
+### Filtering
+
+Control and replicates have been removed, now it's time for filtering.
+
+__Filtering Summary__   
+We take an iterative approach to filtering:  
+
+First remove worst individuals and genotypes:
+- GTperc_cutoff=30 (indivudals greater than 30% missing data excluded)
+- Missingness (loci) > 50% (loci with total missing data > 50% removed)
+- IFI_cutoff = 10 (i.e. >10% background reads)
+
+
+Then recalculate missingness and IFI
+- IFI_cutoff=2.5  
+- GTperc_cutoff=90 (inds greater than 10% missing data excluded)  
+- Missingness (loci) > 20%
+
+Then examine for paralogues among markers with  
+- Missingness (loci) > 10% - examine for allele correction issues  
+- Markers where heterozygotes and "in-betweeners" do not follow 1:1 ratio of allele counts
+- Markers with high variance in ratio of allele counts at heteroyzgotes and "in-betweeners"
+- Remove monomorphic SNPs  
+
+
+#### IFI and Missingness
+
+First we filter individuals and loci on IFI, and missingness. 
+
+Let's take a look at the distribution of these values before any filtering
+```{r, message=FALSE, warning=FALSE}
+ggplot(genos_0.2)+geom_histogram(aes(x=IFI))+geom_vline(aes(xintercept= 2.5), color="red")+theme_classic()
+ggplot(genos_0.2)+geom_histogram(aes(x=`%GT`))+geom_vline(aes(xintercept= 90), color="red")+theme_classic()
+
+missingness <- (colSums(genos_0.2[,c(8:(ncol(genos_0.2)-1))] == "00" | genos_0.2[,c(8:(ncol(genos_0.2)-1))] == "0"))/nrow(genos_0.2) #warning hardcoding: "[,8:398]" is hardcoded to work on the example script using the Omy panel with 390 markers, these values will need to be changed to reflect the genotype columns of the genos r object that YOU are running. This excludes columns with metadata and genotyping results such as "sample name" "ifi" "on-target reads" etc
+missing <- as.data.frame(missingness)
+missing$marker <- row.names(missing)
+ggplot(missing) + geom_histogram(aes(x=missingness))+geom_vline(aes(xintercept= 0.2), color="red")+geom_vline(aes(xintercept= 0.1), color="blue")+theme_classic()+xlab("missingness (loci)")
+```
+
+Now let's make the datasets. The first step is to collect some information about genotying success from the .genos files. We'll do this with an awk one liner.  
+
+The script below will pull the allele count ratios and read counts for all individuals in the pipeline
+```{bash, eval = FALSE}
+# SERVER
+
+#run from directory with your .genos
+
+#collect marker info from all the genos files
+touch marker_info_2021.csv
+echo 'ind,marker,a1_count,a2_count,called_geno,a1_corr,a2_corr' >> marker_info_2021.csv
+for file in ./*genos
+do
+    awk -F"," ' BEGIN { OFS="," } {print FILENAME,$1,$2,$3,$6,$7,$8}' $file >> marker_info_2021.csv
+done
+
+# now we'll cleanup this file a little bit
+sed -i '/Raw-Reads/d' ./marker_info_2021.csv #first get rid of genos headers
+
+# now clean up the "ind" field so that it matches the genos_0.2 data
+# removed leading ./ and trailing .genos
+
+```
+
+Read in the marker info file and clean it up.
+```{r, message=FALSE, warning=FALSE}
+
+marker_info <- read_csv("genotype_data_2021/marker_info_2021.csv")
+
+#this part changes the values of A=2, G=898, -=52, etc for the allele count columns to the actual values
+marker_info$a1_count <- as.numeric(substr(marker_info$a1_count, 3, nchar(marker_info$a1_count)))
+marker_info$a2_count <- as.numeric(substr(marker_info$a2_count, 3, nchar(marker_info$a2_count)))
+
+
+```
+
+
+__0.3: Extremely Bad Loci and Individuals Excluded__
+
+First remove the individuals and markers that clearly failed to genotype correctly (one step at a time)
+
+```{r, message = FALSE, warning = FALSE}
+#print table of bad missingness individual
+kable(genos_0.2 %>%
+  filter(`%GT` < 70) %>%
+    select(1:6), caption = "Individuals with high missingess (>30% missing data)")
+
+# now remove them
+genos_0.3 <- genos_0.2 %>%
+  filter(`%GT` > 70)
+
+#now recalculate locus level missingness after removing the worst individuals
+  
+missingness2 <- (colSums(genos_0.3[,c(8:(ncol(genos_0.3)-2))] == "00" | genos_0.3[,c(8:(ncol(genos_0.3)-2))] == "0"))/nrow(genos_0.3) #warning hardcoding: "c(8:(ncol(genos_0.3)-1))" is hardcoded to work on the example script. make sure this this only grabbing the columns that contian genotype data and not other columns (last column should be sample type, first 7 columns should have individual level summary data ) e.g. IFI
+missing2 <- as.data.frame(missingness2)
+missing2$marker <- row.names(missing2)
+
+#then remove these markers
+# collect bad markers
+very_bad_markers <- missing2[missing2$missingness2>0.5, 2]
+print(paste(length(very_bad_markers), "markers with > 50% missing data"))
+
+#write the new dataset
+genos_0.3 <- genos_0.3 %>%
+  dplyr::select(-one_of(very_bad_markers))
+
+#then recalculate IFI
+# IFI is equal to the percentage of "background" reads to homozygote reads. Two types of reads contribute to background count: (1) Reads from the alternative allele when an individual has been called as homozygote at a locus, and (2) reads from the less frequent allele when the individual has been called as "in-betweener". We update the IFI score by including only markers in the filtered dataset
+
+
+IFI <- marker_info %>%
+  filter(marker %in% colnames(genos_0.3)) %>%
+  group_by(ind) %>%
+  summarize(back_count = sum(a1_count[called_geno == "A2HOM"], na.rm = TRUE)
+            + sum(a2_count[called_geno == "A1HOM"], na.rm = TRUE)
+            + sum(a1_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a2_count > a1_count)], na.rm = TRUE )
+            + sum(a2_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a1_count > a2_count)], na.rm = TRUE ),
+            
+            hom_ct = sum(a1_count[called_geno == "A1HOM"], na.rm = TRUE)
+            + sum(a2_count[called_geno == "A2HOM"], na.rm = TRUE)
+            + sum(a2_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a2_count > a1_count)], na.rm = TRUE )
+            + sum(a1_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a1_count > a2_count)], na.rm = TRUE ),
+            
+            ifi2 = (back_count/hom_ct)*100)
+
+# the "marker_info" file we produced earlier used the filename of the genos file as the sample name (column name "ind"), but the sample names in our local R dataframes are very cleaned up (see line 504). Here I attempt to do the same using some regex in R using the standardized codes for sample naming at SFGL, but note that depending on how your fastq files are named, these exact matches may not work for you
+# until we find a better solution I suggest two alternatives if this regex below breaks
+# 1: if the number of high IFI samples is very low, just write the sample names out manually to a vector and use this to filter
+# 2: 
+
+#IFI$sample <- str_extract(IFI$ind, "[:upper:][:lower:]{2}[AJCU][RC]\\d{2}\\w{4}_\\d{4}")
+#IFI$adapter <- str_replace(IFI$ind, "(\\w+)[-_]([:upper:][:lower:]{2}[AJCU][RC]\\d{2}\\w{4}_\\d{4}).*", "\\1")
+
+
+genos_0.3 <- genos_0.3 %>%
+  left_join(select(IFI, ind, ifi2), by = c( "filename" = "ind")) %>%
+  mutate(IFI = ifi2) %>%
+  select(-one_of("ifi2"))
+
+# now filter on IFI
+#print table of bad IFI samples
+kable(genos_0.3 %>%
+  filter(IFI >10) %>%
+    select(1:7), caption = "Extreme High IFI (>10) samples (low confidence barcodes)")
+
+#update the  dataset
+genos_0.3 <- genos_0.3 %>%
+  filter(IFI < 10)
+
+```
+
+__Filtering log 0.2 -> 0.3:__  
+8 inds removed with genotying success less than 70%  
+3 loci removed with > 50% missingness  
+0 inds with >10 IFI
+
+__0.4 Second Iteration Filter__
+
+Next we do the same process, but at the final filtering levels:
+
+- IFI_cutoff=2.5  
+- GTperc_cutoff=90 (inds greater than 10% missing data excluded)  
+- Missingness (loci) > 20%
+
+```{r}
+#print table of bad missingness individual
+kable(genos_0.3 %>%
+  filter(`%GT` < 90) %>%
+    select(1:7), caption = "Individuals with high missingess (>10% missing data)")
+
+# now remove them
+genos_0.4 <- genos_0.3 %>%
+  filter(`%GT` > 90)
+
+#now recalculate locus level missingness after removing the worst individuals
+  
+missingness3 <- (colSums(genos_0.4[,c(8:(ncol(genos_0.4)-2))] == "00" | genos_0.4[,c(8:(ncol(genos_0.4)-2))] == "0"))/nrow(genos_0.4) #warning hardcoding: "c(8:(ncol(genos_0.3)-1))" is hardcoded to work on the example script. make sure this this only grabbing the columns that contian genotype data and not other columns (last column should be sample type, first 7 columns should have individual level summary data ) e.g. IFI
+missing3 <- as.data.frame(missingness3)
+missing3$marker <- row.names(missing3)
+
+#then remove these markers
+# collect bad markers
+bad_markers <- missing3[missing3$missingness3>0.2, 2]
+print(paste(length(bad_markers), "markers with > 20% missing data"))
+
+#write the new dataset
+genos_0.4 <- genos_0.4 %>%
+  dplyr::select(-one_of(bad_markers))
+
+#then recalculate IFI
+# IFI is equal to the percentage of "background" reads to homozygote reads. Two types of reads contribute to background count: (1) Reads from the alternative allele when an individual has been called as homozygote at a locus, and (2) reads from the less frequent allele when the individual has been called as "in-betweener"
+
+IFI <- marker_info %>%
+  filter(marker %in% colnames(genos_0.4)) %>%
+  group_by(ind) %>%
+  summarize(back_count = sum(a1_count[called_geno == "A2HOM"], na.rm = TRUE)
+            + sum(a2_count[called_geno == "A1HOM"], na.rm = TRUE)
+            + sum(a1_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a2_count > a1_count)], na.rm = TRUE )
+            + sum(a2_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a1_count > a2_count)], na.rm = TRUE ),
+            
+            hom_ct = sum(a1_count[called_geno == "A1HOM"], na.rm = TRUE)
+            + sum(a2_count[called_geno == "A2HOM"], na.rm = TRUE)
+            + sum(a2_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a2_count > a1_count)], na.rm = TRUE )
+            + sum(a1_count[is.na(called_geno) == TRUE & ((a1_count + a2_count)>=10) & (a1_count > a2_count)], na.rm = TRUE ),
+            
+            ifi2 = (back_count/hom_ct)*100)
+
+# the "marker_info" file we produced earlier used the filename of the genos file as the sample name (column name "ind"), but the sample names in our local R dataframes are very cleaned up (see line 504). Here I attempt to do the same using some regex in R using the standardized codes for sample naming at SFGL, but note that depending on how your fastq files are named, these exact matches may not work for you
+# until we find a better solution I suggest two alternatives if this regex below breaks
+# 1: if the number of high IFI samples is very low, just write the sample names out manually to a vector and use this to filter
+# 2: 
+
+#IFI$sample <- str_extract(IFI$ind, "[:upper:][:lower:]{2}[AJCU][RC]\\d{2}\\w{4}_\\d{4}")
+#IFI$adapter <- str_replace(IFI$ind, "(\\w+)[-_]([:upper:][:lower:]{2}[AJCU][RC]\\d{2}\\w{4}_\\d{4}).*", "\\1")
+
+
+genos_0.4 <- genos_0.4 %>%
+  left_join(select(IFI, ind, ifi2), by = c( "filename" = "ind")) %>%
+  mutate(IFI = ifi2) %>%
+  select(-one_of("ifi2"))
+
+# now filter on IFI
+#print table of bad IFI samples
+kable(genos_0.4 %>%
+  filter(IFI >2.5) %>%
+    select(2:7), caption = "High IFI (>2.5) samples (low confidence barcodes)")
+
+#update the  dataset
+genos_0.4 <- genos_0.4 %>%
+  filter(IFI < 2.5)
+
+```
+
+Note that the table above is blank in the example script because 0 individuals showed high contamination.
+
+__0.3 -> 0.4 Filtering Log__
+
+Filtered out:  
+42 individuals with <90% genotying success (i.e. greater than 10% missing data)  
+14 markers with > 20% missingness  
+1 contaminated sample
+
+
+#### Paralogs
+
+Now we manually examine allele counts for markers that may tag paralogues regions. Because our panels can contain hundreds of loci, we flag three types of markers for close scrutiny (below), but this is informal and you can also look at any marker you want using some of the scripts below.       
+- Missingness (loci) > 10% - examine for allele correction issues  
+- Markers where heterozygotes and "in-betweeners" do not follow 1:1 ratio of allele counts
+- Markers with high variance in ratio of allele counts at heteroyzgotes and "in-betweeners"
+ 
+
+Let's collect these markers, first markers with high missingness (10-20% missingness)    
+```{r}
+# Local R
+
+#get marker names of markers with 0.1 > missingness > 0.2
+miss0.1 <- missing3[missing3$missingness3 > 0.1,]
+miss_mod <- miss0.1[miss0.1$missingness3 < 0.2, 2]
+```
+
+Next, markers with skewed allele count ratios and allele ratios with high variance. We do this by fitting a linear model between allele 1 counts and allele 2 counts and then flagging markers with a ratio of > 1.5 (3/2) and less than 2/3. We also flag markers where the fit 
+
+```{r, warning = FALSE, message= FALSE}
+library(lme4)
+hets <- filter(marker_info, called_geno == "HET" | is.na(called_geno))
+
+models <- hets %>%
+  filter(marker %in% colnames(genos_0.4)) %>%
+  filter(is.na(a1_count) == FALSE & is.na(a2_count) == FALSE) %>%
+  group_by(marker) %>%
+  group_map(~ lm(a1_count ~ a2_count, data= .))
+
+# Apply coef to each model and return a list of allele count ratios
+lms <- lapply(models, coef)
+ggplot()+geom_histogram(aes(x = sapply(lms,`[`,2)))+theme_classic()+ggtitle("allele ratios for all NA and HET calls")+geom_vline(aes(xintercept = 1.5), color = "red", linetype = 2)+geom_vline(aes(xintercept = (2/3)), color = "red", linetype = 2)+xlab("allele ratio (a1/a2)")+geom_vline(aes(xintercept = 1), color = "black")
+
+#list of p-values
+lms_anova <- lapply(models, summary)
+
+
+# collect info about each bad model
+paralog_possible <- which(abs(sapply(lms,`[`,2)) > 1.5) #bad because a positively skewed allele ratio
+paralog_possible2 <- which(abs(sapply(lms,`[`,2)) < (2/3)) # bad because a negative skewed allele ratio
+
+paralog_possible3 <- which(sapply(lms_anova, function(x) x$coefficients[,4][2])> 0.01) # bad because too much variance in allele ratio, even if mean ratio is 1
+
+paralog_possible <- c(paralog_possible, paralog_possible2, paralog_possible3)
+```
+
+36 markers have a possible issue with PSVs. Let's plot them
+
+
+```{r, message=FALSE}
+# R Local
+
+plots <- marker_info %>%
+  filter(marker %in% colnames(genos_0.4)) %>%
+  filter(is.na(a1_count) == FALSE & is.na(a2_count) == FALSE) %>%
+  group_by(marker) %>%
+  do(plots=ggplot(data=.)+geom_point(aes(a1_count, a2_count, color = called_geno))+theme_classic()+geom_abline(aes(slope=1, intercept=0))+geom_abline(aes(slope = 10, intercept=0), color = "green")+geom_abline(aes(slope = 0.1, intercept=0), color = "red")+geom_abline(aes(slope = 0.2, intercept=0), color = "blue")+geom_abline(aes(slope = 5, intercept=0), color = "blue")+coord_equal(ratio=1)+geom_abline(slope = -1, intercept = 10)+ggtitle(unique(.$marker)))
+
+#plot all "bad markers"
+
+#first add the missningness markers to the list to examine
+mod_bad_plot_index <- which(plots$marker %in% miss_mod)
+paralog_possible <- c(mod_bad_plot_index, paralog_possible)
+
+# then loop through the plots by changing the index (here 36) until you have looked at all your questionable markers
+# plots$plots[[paralog_possible[10]]] #manually looped through these plots by changing the index for all 33 moderately bad markers, could make an lapply loop in the future, bad markers reported below
+
+```
+
+
+Removed 10 markers due to potential PSV. 
+```{r}
+psv_index <- paralog_possible[c(5, 13, 15, 18, 20, 21, 27, 28, 34, 35)]
+to_filt <- plots$marker[psv_index]
+genos_0.5 <- genos_0.4 %>%
+  dplyr::select(-one_of(to_filt))
+```
+
+#### Monomorphic Markers and Duplicates
+
+__1.0 Monomorphic Markers__
+
+To generate the 1.0 dataset, we remove monomorphic markers
+
+```{r}
+genos_1.0 <- genos_0.5 %>% 
+  select_if(~ length(unique(.)) > 1)
+```
+
+#### Duplicates
+
+__Duplicate Samples__
+
+Some sample tissues are provided in batches of fin clips. Let's make sure no fin clips broke apart leading to a single individual to be represented twice in the dataset. Rather than fussing with installing coancestry for windows on a unix system, estimated relatedness using an R package (related) which can implement the code from Coancestry. 
+
+To run the code in Coancestry on a windows machine, use the GUI.
+
+We used the estimator from Lynch and Ritland 1999 #not dyadic likelihood estimator, Milligan (2003) 
+```{r, eval=FALSE}
+# Local R
+
+# The input file needs a unique row for each indiviudal and two columns for each diploid locus
+# threw out metadata and wrote to a file
+# then we split all the genotype values using regex in a text editor (after converting all na values to 00)
+# also convert indels / big probes (denoted with a "-" to missing, as related only wants SNPs)
+#   find string: \t([ATGC0XY])([ATCG0XY])  replace string: \t\1\t\2
+# convert genos to numbers and removed sex marker
+#convert to integer T-1 G->2 etc
+
+just_genos <- genos_1.0[,c(1, c(8:(ncol(genos_1.0)-2)))] #note possible hardcoding here (just like missingness), if this breakes edit the columns so that it grabs only the sample name and genotype data
+write_tsv(just_genos, "genotype_data_2021/just_genos.txt")
+
+#now do the regex
+
+# now run coancestry
+#rmat <- coancestry("./genotype_data/just_genos.txt", dyadml = 1)
+rmat2 <- coancestry("genotype_data_2021/just_genos.txt", lynchrd  = 1)
+
+# save the relevant info so we don't have to run this over and over and take up a ton of diskspace
+rmat_to_save <- rmat2$relatedness[rmat2$relatedness$lynchrd > 0.5,]
+save(rmat_to_save, file="genotype_data_2021/relatedness.Rdata")
+```
+
+Check for highly related individuals and remove any >= 0.95 from the dataset
+```{r}
+# LOCAL R
+
+#Check for relatedness
+load(file = "genotype_data_2021/relatedness.Rdata")
+#ggplot(rmat_to_save$relatedness)+geom_histogram(aes(x=lynchrd))+theme_classic()
+rmat_to_save[which(rmat_to_save$lynchrd >=0.95), c(1:3)]
+
+dup_inds <- rmat_to_save[which(rmat_to_save$lynchrd >= 0.95), c(1:3)]
+
+#if you used the coancestry GUI, you can just create a vector here manually like below
+#dup_inds <- c("dupicate sample name 1", "dupicate sample name 2" , etc)
+
+genos_2.0 <- genos_1.0 %>%
+  filter(!(Sample %in% dup_inds$ind2.id))
+```
+
+
+There were 39 pairs of duplicated samples. All (but two pairs) were among the half pounders and within a single year. All were also within <50 of each other w respct to their ID number, suggesting they were from the same jar. 
+
+__Duplicate Marker__  
+
+Omy_RAD15709-53 and Omy_RAD47080-54 tag the same marker.  
+Keep Omy_RAD15709-53, and exclude Omy_RAD47080-54
+```{r}
+genos_2.0 %<>%
+  select(-one_of("Omy_RAD47080-54"))
+
+```
+
+#### Population Missingness
+
+Finally, we noticed some markers demonstrate population/run specific patterns of missingness. Since this may be due to allele dropout and cause serious gentoyping errors, we will remove any markers with >25% difference in mean missingness between poulations.
+
+
+```{r}
+genos_2.0 %<>% 
+  left_join(select(meta_data, ID, run), by = c("Sample" = "ID"))
+
+diff_miss <- colSums((genos_2.0[genos_2.0$run == "Winter",8:356] == "00")/nrow(genos_2.0[genos_2.0$run == "Winter",]))-colSums((genos_2.0[genos_2.0$run == "Summer",8:356] == "00")/nrow(genos_2.0[genos_2.0$run == "Summer",]))
+diff_miss <- as.data.frame(diff_miss)
+diff_miss$marker <- row.names(diff_miss)
+ggplot(diff_miss) + geom_histogram(aes(x=abs(diff_miss)))+geom_vline(aes(xintercept= 0.25), color="red")+geom_vline(aes(xintercept= 0.1), color="blue")+theme_classic()+xlab("missingness (loci)")
+
+diff_miss[abs(diff_miss$diff_miss) >= 0.25,]
+```
+
+One markers has a greater the 25% difference in missingness
+
+```{r}
+genos_2.0 %<>%
+  select(-one_of("Chr28_11671116", "run"))
+
+```
+
+
+
+## File Conversion and Stats
+
+The final dataset consists of 1000 individuals and 350 markers.
+
+Final step of genotyping is to collect some stats about the genotype dataset and reformat the genotype file into common formats for import into other programs.
+
+### Stats
+
+Here are some summary stats and figures from your filtered dataset
+
+Final Population Sizes
+```{r, warning=FALSE, message=FALSE}
+
+left_join(genos_2.0, meta_data, by = c("Sample" = "ID")) %>%
+  ungroup(Sample) %>%
+  count(run, year) 
+```
+
+Note that this is the exact same as the first run, but with 118 additional fall run samples. 
+
+```{r, fig.cap="On Target Read Distribution"}
+# LOCAL R
+
+ggplot(genos_2.0)+geom_density(aes(x=`On-Target Reads`))+geom_vline(aes(xintercept=median(`On-Target Reads`)), color = "red") +theme_classic()
+```
+
+
+```{r, fig.cap="Proportion on Target"}
+#LOCAL R
+ggplot(genos_2.0)+geom_density(aes(x=`%On-Target`))+geom_vline(aes(xintercept=median(`%On-Target`)), color = "red") +theme_classic()
+```
+
+Depths
+```{r, warning=FALSE, message=FALSE}
+#LOCAL R
+
+#code to estimate depth at filtered loci
+marker_info %>%
+  filter(marker %in% colnames(genos_2.0)) %>%
+  mutate(sumdepth=a1_count+a2_count) %>%
+  summarise(mean=mean(sumdepth, na.rm = TRUE), median=median(sumdepth, na.rm = TRUE), sd=sd(sumdepth, na.rm = TRUE))
+
+marker_info %>%
+  filter(marker %in% colnames(genos_2.0)) %>%
+  mutate(sumdepth=a1_count+a2_count) %>%
+  ggplot + aes(x=sumdepth)+geom_histogram()+theme_classic()+xlab("Mean Depth Per Locus Per Individual")
+```
+
+### Conversion
+
+Let's get some usable file formats
+
+Here's adegenet's genind object
+```{r, eval=FALSE}
+#LOCAL R
+
+# Convert to genind for import into adegenet
+
+#first get a matrix to work on
+
+#first change column to not include a dot
+genos_2.1 <- genos_2.0
+colnames(genos_2.1) <- gsub("\\.", "_", colnames(genos_2.1))
+#convert to matrix with inds as row names
+genos_2.1 <- as.matrix(genos_2.1[,c(7:356)]) #caution hardcoding, make sure you select just your marker columns
+row.names(genos_2.1) <- genos_2.0$Sample
+genind_1.0 <- df2genind(genos_2.1, sep ="", ploidy=2,NA.char = "0")
+
+#add in the populations
+genos_2.2 <- genos_2.0 %>%
+  left_join(meta_data, by=c("Sample" = "ID"))
+
+genind_1.0@pop <- as.factor(genos_2.2$run)
+
+```
+
+Here's a general approach using radiator package
+```{r, eval = FALSE}
+# LOCAL R
+
+# note didn't do this yet, but check out the command: 
+radiator::genomic_converter()
+```
+
+Finally, save your files as R objects for further analysis.
+```{r, eval = FALSE}
+# LOCAL R
+
+# here we save a few objects with useful info
+genind_2.0 <- genind_1.0
+save(genos_2.2, file ="genotype_data_2021/genotypes_2.2.R")
+save(genind_2.0, file= "genotype_data_2021/genind_2.0.R")
+```
+
+# Sex genotype bug
+
+There were some issues with the sex genotyper that produced a large number of undetermined sex genotypes. 
+
+In a separate analysis of this problem, amplicons from the sex marker took up a smaller proportion of the total on target reads than expected in the Omysex script. This led to a lot of likely males being called as NA. Using the empirical value for the proportion of reads in the data from the sex marker brought sex ratios back into line, and improved agreement between known phenotypic sex and called genotypic sex from 80% to 98%.
+
+Here we use the results from this analysis to regenotype the samples at the sex markers.
+
+```{r, eval = FALSE}
+#get the sex genotype data
+load("~/FRA/omysex_script/data/genos_tail_results.R")
+
+#grab the genos data again (in case it isnt loaded)
+load("genotype_data_2021/genotypes_2.2.R")
+
+sex_results <- genos_2.2 %>%
+  select(Sample, run, year) %>%
+  left_join(select(genos_tail, sample, corrected_sex), by = c("Sample" = "sample"))
+
+#merging here is going to be complicated because didn't keep track of replicates in the corrected sex data results...
+# let's check that all replicates agree
+
+
+sex_results %>%
+  group_by(Sample) %>%
+  filter(n()>1) %>%
+  mutate(letters = replace(corrected_sex, n_distinct(corrected_sex)==1, '') )
+
+
+#of the 111 samples that were duplicated only 4 disagreed on sex genotype called, and 3 of these were NA calls in one replicate. just edited the results manually to reflect the samples in the final dataset
+
+sex_results %<>%
+  distinct(Sample, .keep_all=TRUE)
+
+#now lets summarise the data for the manuscript
+sex_results %>%
+  ungroup() %>%
+  group_by(run, year) %>%
+  count(corrected_sex) 
+
+sex_results %>%
+  ungroup() %>%
+  group_by(run) %>%
+  summarise(sexratio = sum(corrected_sex == "XX", na.rm = TRUE)/sum(corrected_sex == "XY", na.rm = TRUE))
+
+```
+
+
