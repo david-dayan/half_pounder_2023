@@ -1,5 +1,5 @@
 ---
-title: "2021 Half Pounder Genotyping Notebook"
+title: "Online Resource 1: Genotyping Notebook"
 output:
   html_document:
     df_print: paged
@@ -9,6 +9,17 @@ output:
     toc_collapsed: false
 ---
 
+__Genetic diversity within late-summer run and half-pounder steelhead (Oncorhynchus mykiss) in the Rogue River, Oregon__  
+_Conservation Genetics_
+
+David I Dayan (1)*, Steve Mazur (3), Laura J Green (3), Andrew J Wells (3), Marc A Johnson (2), Daniel J Van Dyke (4), Peter A Samarin (4), Ryan D Battleson (4), Kathleen G O’Malley (1)  
+
+(1) State Fisheries Genomics Laboratory, Coastal Oregon Marine Experiment Station, Department of Fisheries, Wildlife and Conservation Sciences, Hatfield Marine Science Center, Oregon State University, Newport, OR, USA  
+(2) Native Fish Conservation and Recovery, Oregon Department of Fish and Wildlife, Salem, OR, USA  
+(3) Oregon Department of Fish and Wildlife, Gold Beach, OR, USA  
+(4) Rogue Watershed District, Oregon Department of Fish and Wildlife, Central Point, OR, USA  
+
+\* Corresponding author, email: david.dayan@oregonstate.edu, ORCID ID: 0000-0001-5001-4062
 
 # Readme
 

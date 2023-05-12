@@ -1,0 +1,79 @@
+Tue May  9 05:29:59 2023: Running validation tests on input files
+Tue May  9 05:30:00 2023: Finished validating - Submitting job to queue
+Tue May  9 05:30:00 2023: Job 1683599399 was submitted to queue.
+Tue May  9 05:30:02 2023: Job 1683599399 started running.
+Tue May  9 05:30:02 2023: Job Parameters:
+Tue May  9 05:30:02 2023: Input file: Archive.zip
+Tue May  9 05:30:02 2023: Input type: STRUCTURE
+Tue May  9 05:30:02 2023: CLUMPP search method: LargeKGreedy 
+Tue May  9 05:30:02 2023: MCL cluster size threshold: 0.1 (default)
+Tue May  9 05:30:02 2023: Extracting file: "Archive.zip".
+Tue May  9 05:30:03 2023: Sorting input files by K
+Tue May  9 05:30:03 2023: Working on K=1
+Tue May  9 05:30:03 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:03 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:03 2023: Executing CLUMPP for K=1.
+Tue May  9 05:30:03 2023: Clustering K=1 with mcl.
+Tue May  9 05:30:03 2023: no cutoff was used
+Tue May  9 05:30:03 2023: Executing CLUMPP for major cluster.
+Tue May  9 05:30:04 2023: Calculating major cluster LnProb mean and standard deviation.
+Tue May  9 05:30:04 2023: LnProb mean: -216939.23
+Tue May  9 05:30:04 2023: LnProb standard deviation: 0.490011337735148
+Tue May  9 05:30:04 2023: Working on K=2
+Tue May  9 05:30:04 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:04 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:04 2023: Executing CLUMPP for K=2.
+Tue May  9 05:30:07 2023: Clustering K=2 with mcl.
+Tue May  9 05:30:07 2023: no cutoff was used
+Tue May  9 05:30:07 2023: Executing CLUMPP for major cluster.
+Tue May  9 05:30:10 2023: Calculating major cluster LnProb mean and standard deviation.
+Tue May  9 05:30:10 2023: LnProb mean: -216271.1
+Tue May  9 05:30:10 2023: LnProb standard deviation: 15.585891055697
+Tue May  9 05:30:10 2023: Working on K=3
+Tue May  9 05:30:10 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:11 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:11 2023: Executing CLUMPP for K=3.
+Tue May  9 05:30:17 2023: Clustering K=3 with mcl.
+Tue May  9 05:30:17 2023: cutoff used: 0.98
+Tue May  9 05:30:17 2023: Executing CLUMPP for major cluster.
+Tue May  9 05:30:24 2023: Calculating major cluster LnProb mean and standard deviation.
+Tue May  9 05:30:24 2023: LnProb mean: -216214.39
+Tue May  9 05:30:24 2023: LnProb standard deviation: 61.5617025611069
+Tue May  9 05:30:24 2023: Working on K=4
+Tue May  9 05:30:24 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:24 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:24 2023: Executing CLUMPP for K=4.
+Tue May  9 05:30:36 2023: Clustering K=4 with mcl.
+Tue May  9 05:30:36 2023: cutoff used: 0.94
+Tue May  9 05:30:36 2023: Executing CLUMPP for major cluster.
+Tue May  9 05:30:41 2023: Calculating major cluster LnProb mean and standard deviation.
+Tue May  9 05:30:41 2023: LnProb mean: -216929.657142857
+Tue May  9 05:30:41 2023: LnProb standard deviation: 563.723658237921
+Tue May  9 05:30:41 2023: Executing CLUMPP for minor clusters.
+Tue May  9 05:30:42 2023: Calculating MinorCluster1 LnProb mean and standard deviation.
+Tue May  9 05:30:42 2023: LnProb mean: -216616.633333333
+Tue May  9 05:30:42 2023: LnProb standard deviation: 175.116713460854
+Tue May  9 05:30:42 2023: Working on K=5
+Tue May  9 05:30:42 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:42 2023: calling ExtractIndTableFromStructureFiles
+Tue May  9 05:30:42 2023: Executing CLUMPP for K=5.
+Tue May  9 05:30:59 2023: Clustering K=5 with mcl.
+Tue May  9 05:30:59 2023: cutoff used: 0.92
+Tue May  9 05:30:59 2023: Executing CLUMPP for major cluster.
+Tue May  9 05:31:17 2023: Calculating major cluster LnProb mean and standard deviation.
+Tue May  9 05:31:17 2023: LnProb mean: -217710.3
+Tue May  9 05:31:17 2023: LnProb standard deviation: 746.196377191244
+Tue May  9 05:31:17 2023: Ordering clusters by size for K=1
+Tue May  9 05:31:17 2023: Calling distruct for K=1.MajorCluster
+Tue May  9 05:31:17 2023: Calculating best Average Distance between K=1 and K=2..
+Tue May  9 05:31:17 2023: Calling distruct for K=2.MajorCluster
+Tue May  9 05:31:18 2023: Calculating best Average Distance between K=2 and K=3..
+Tue May  9 05:31:18 2023: Calling distruct for K=3.MajorCluster
+Tue May  9 05:31:19 2023: Calculating best Average Distance between K=3 and K=4..
+Tue May  9 05:31:19 2023: Calling distruct for K=4.MajorCluster
+Tue May  9 05:31:19 2023: Calculating best Average Distance between K=4 and K=5..
+Tue May  9 05:31:20 2023: Calling distruct for K=5.MajorCluster
+Tue May  9 05:31:21 2023: Calculating best Average Distance between large cluster and K=4.MinorCluster1..
+Tue May  9 05:31:21 2023: Calling distruct for K=4.MinorCluster1
+Tue May  9 05:31:21 2023: Creating job summary PDF
+Tue May  9 05:31:22 2023: Creating job zip file

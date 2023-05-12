@@ -1,0 +1,3022 @@
+********************************************
+*                                          *
+*      Output from fastPHASE 1.4.8         *
+*      Code by P Scheet                    *
+*      pscheet@alum.wustl.edu              *
+*                                          *
+********************************************
+BEGIN COMMAND_LINE
+/Users/ddayan/Science/programs/fastPHASE -n ./genotype_data_2021/chr28.fastphase 
+END COMMAND_LINE
+
+BEGIN COMMAND_EXPLAIN
+ K no. clusters (chosen or supplied): 15
+ S seed for random numbers (chosen or supplied): 1620343573
+END COMMAND_EXPLAIN
+
+BEGIN DESCRIBE_TASKS
+minimize switch error
+END DESCRIBE_TASKS
+
+BEGIN GENOTYPES
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A A G C T A T G T A
+# 
+A T G G G C C G G T G A
+G G G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G T T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G T T G A
+G G G A G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T T
+G G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C T A G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G T
+# 
+G T G G G C T A T G T A
+G G G A G C T A G G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G T G A
+G G G A G C T A G G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G T G A G C C G G T G T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G T
+A T G G G C C G G T G T
+# 
+G T G G G C T A T G T A
+A T G G G C C G G G T A
+# 
+G G G G G C C G G G T A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A T G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T T
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G G G A G C T A G G T A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T T
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C T A G G T A
+# 
+G T G G G C T A T G T A
+G T G G G C C G G G T T
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G A G C T A G G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T T
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C T A G G G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G A G C T A G G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C T A G G T A
+G G G A G C T A G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G T G G G C T A G G T A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G A G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G G G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+G T G G G C C G G G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G C T A G G T A
+# 
+G T G G G C T A T T G A
+G G G A G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A T G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G T A G G C T A T G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G C T A T G T A
+G T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T A G G C T A T G T A
+A T G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T T
+G T A G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C T A G G T A
+# 
+G T G G G C T A T G T A
+G G G A G C T A G G T A
+# 
+G G G A G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G T A G G A T A G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T G G G C T A T G T A
+G G G A G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T T
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T G T G T A
+G G G A G C C G G T G A
+# 
+G T G G G C T A T G T A
+A G G G G C C G T T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T T G T
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+A G G G G C C G G T G T
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C T A G G T A
+G T G G G C T A T G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+G G G A G C C G G G T A
+# 
+G T A G G A T A T T G A
+A T G G G C C G G T G A
+# 
+G T G A G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+A T G G G C C G G T G A
+G G G A G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G T G A G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+A T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G G G A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C T A G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G T T G T
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G T A G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C T A G G T A
+G T G G G C T A T G T A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T T
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G T
+A G G G G C C G G T G T
+# 
+G G G G G C C G G G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G G G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G G G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G C T A G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C T A G G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G T A G G A T A T G T T
+G G G A G C T A G G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G G T A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C T A G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C T A T G T T
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G G G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T A G G A T A T G T T
+G G G G G C C G G T G A
+# 
+G T A G G A T A T T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T A G G C C G G T G T
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G T G G G C T A T G T A
+A G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C T A G G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C A G T G A
+G T G G G C T A G G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T T
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G A G C T A T G T T
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G T G A G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C C G G T G A
+# 
+G G G A G C T A G G T A
+A T G G G C C G G G G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C C G G G T T
+# 
+G T A G G A T A T G T T
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G A G C T A T G T A
+A T G G G C C G G G G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G A G C T A G G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T G G G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G G G G G C C G G T G A
+A T A G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G C T A G G T A
+G G G A G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C T A G G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G T
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G A G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A G G T A
+G T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C C G G G T A
+# 
+G T G A G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C T A G G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T T
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G T
+G G G G G C T A G G T A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G G G A G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T G T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G T T G A
+# 
+G G G A G C T A G G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C T A G G T A
+# 
+G T G A G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T T A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+A T G G G C C G G T G T
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G T
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A G G T A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G T
+G G G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A G G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T A G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T G A G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G T
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C T A G G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T A G T A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G T
+# 
+G T G A G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A T G G G C C G G G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G C C G G T G A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+A T G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G T G G G C T A T G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G A G C T A T G T A
+# 
+A T G G G C C G G T G T
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C T A G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+A T G G G C T A G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C T A G G T A
+G G G A G C T A T G T A
+# 
+A T G G G C C G G T G A
+G T G A G C C G G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T G G G C T A T G T A
+G T G G G C T A G G T A
+# 
+G T G G G C T A T G T A
+A T G G G C C G G T G A
+# 
+A T G G G C C G G T G T
+G T G G G C C G G G T T
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C T A G G T A
+A T G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G T
+# 
+G G G A G C T A G G T A
+G T G G G C T A G G T A
+# 
+G T G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G G T T
+# 
+G G G A G C T A G G T A
+A T G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T T
+A T G G G C C G G T G T
+# 
+G T A G G A T A T G T A
+G T A G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T G G G C T A T G T T
+A T G G G C C G G T G T
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G G G A G C T A G G T A
+G G G G G C C G G G T A
+# 
+G G G G G C T A T G T A
+G T G G G C T A T G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A T G T T
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+A G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G T T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T G G G C T A G G G A
+G T G G G C T A G G T A
+# 
+G T G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+A G G G G C C G G T G A
+A G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C T A G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G G G A G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G G G G G C T A G G T A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G C T A T G T A
+G T G G G C T A T G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+A T G G G C C G G T G A
+G G G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G A G C C G G T G A
+A T G G G C C G G T G A
+# 
+G T A G G A T A T G T A
+A G G G G C C G G T G A
+# 
+G G G G G C C G G G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G T A G G C T A T G T A
+# 
+G T A G G A T A T G T T
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G A G C C G G T G A
+# 
+G T G A G C T A T G T T
+A T G G G C C G G T G A
+# 
+G G G G G C C G G T G A
+G T G G G C T A G G T A
+# 
+G T A G G A T A T G T A
+G T A G G A T A T G T A
+# 
+G G G G G C C G G T G A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+A T G G G C C G G T G A
+# 
+G T G G G C T A T G T A
+G G G G G C C G G G T A
+# 
+G T A G G A T A T G T A
+G G G G G C C G G T G A
+# 
+G T G G G C T A G G T A
+G G G G G C C G G G T A
+# 
+A G G G G C C G G T G A
+A T G G G C C G G T G T
+END GENOTYPES
