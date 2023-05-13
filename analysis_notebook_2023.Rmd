@@ -53,7 +53,7 @@ David I Dayan (1)*, Steve Mazur (3), Laura J Green (3), Andrew J Wells (3), Marc
 This is an rstudio project. If you'd like to pre-rendered figures, read a summary of analysis and view code, please open the html file in a browser. 
 
 
-To conduct the analyses on your computer, edit or run code: clone this repository into a directory on you r local machine and open the .Rproj file in Rstudio. All data and analyses are available in the github repository at https://github.com/david-dayan/half_pounder_2023 and archived at zenodo __UPDATE THIS__ https://zenodo.org/badge/latestdoi/302479383
+To conduct the analyses on your computer, edit or run code: clone this repository into a directory on you r local machine and open the .Rproj file in Rstudio. All data and analyses are available in the github repository at https://github.com/david-dayan/half_pounder_2023 and archived at zenodo https://zenodo.org/badge/latestdoi/636851663
 
 
 # Rationale 
@@ -1223,13 +1223,13 @@ ggplot(data = filter(ldreport_sw ))+geom_tile(aes(marker_1, marker_2, fill = R2)
 
 ggplot(data = filter(ldreport_hf ))+geom_tile(aes(marker_1, marker_2, fill = R2), size = 2)+scale_fill_viridis_c(option = "C")+theme_classic()+theme(axis.text.x = element_text(angle = 90))+ggtitle("Late-Summer\nand Half-pounders")+coord_equal()
 
-# 
-# #plot
-# a <- ggplot(data = filter(ldreport_sw ))+geom_tile(aes(marker_1, marker_2, fill = R2), size = 2)+scale_fill_viridis_c(option = "C")+theme_classic()+theme(axis.text.x = element_text(angle = 90))+ggtitle("Early-Summer\nand Winter Run")+coord_equal() 
-# 
-# b <- ggplot(data = filter(ldreport_hf ))+geom_tile(aes(marker_1, marker_2, fill = R2), size = 2)+scale_fill_viridis_c(option = "C")+theme_classic()+theme(axis.text.x = element_text(angle = 90))+ggtitle("Late-Summer\nand Half-pounders")+coord_equal()
-# 
-# plot_grid(a,b,ncol=1,labels="auto")
+
+#plot
+a <- ggplot(data = filter(ldreport_sw ))+geom_tile(aes(marker_1, marker_2, fill = R2), size = 2)+scale_fill_viridis_c(option = "C")+theme_classic()+theme(axis.text.x = element_text(angle = 90))+ggtitle("Early-Summer\nand Winter Run")+coord_equal()
+
+b <- ggplot(data = filter(ldreport_hf ))+geom_tile(aes(marker_1, marker_2, fill = R2), size = 2)+scale_fill_viridis_c(option = "C")+theme_classic()+theme(axis.text.x = element_text(angle = 90))+ggtitle("Late-Summer Run \nand Half Pounders")+coord_equal()
+
+plot_grid(a,b,ncol=1,labels="auto")
 
 ```
 
