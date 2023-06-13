@@ -1,0 +1,3 @@
+Site	type	Lat	Lon
+Huntley Park	Release	42.481801	-124.328561
+Cole Rivers Hatchery	Release	42.66467271418525	-122.68649945974201
